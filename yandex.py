@@ -25,12 +25,9 @@ class YaUploader:
         response = requests.get(upload_url, headers=headers, params=params)
         return response.json()
 
-    def upload_file_to_disk(self, disk_file_path, filename):
-        href_response = self._get_upload_link(disk_file_path=disk_file_path)
-        href = href_response.get("href", "ошибка")
-        response = requests.put(url=href, data=open(filename, 'rb'))
-        response.raise_for_status()
-        # if response.status_code == 201:
-
-
+    def upload_file_to_disk(self, disk_file_path, source_link):
+        upload_file_url = "https://cloud-api.yandex.net/v1/disk/resources/upload"
+        headers = self.get_headers()
+        params = {"path": disk_file_path, "url": source_link}
+        response = requests.post(upload_file_url, headers=headers, params=params)
 
